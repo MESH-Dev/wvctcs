@@ -12,6 +12,8 @@ get_header(); ?>
 
 <main id="main" class="site-main" role="main" style="background-image:url('<?php echo $pb_image_URL; ?>')">
 
+  <?php get_template_part( 'contact'); ?>
+
   <div class="container">
 
     <div class="row">
@@ -71,7 +73,9 @@ get_header(); ?>
                           <div class="pin <?php echo $location->slug ?>">
                             <input class="filter" type="checkbox" id="<?php echo $location->slug; ?>" name="<?php echo $location->slug; ?>" value=".<?php echo $location->slug ?>" data-name="<?php echo $location->name ?>" data-filter="<?php echo $location->slug; ?>" />
                             <label for="<?php echo $location->slug; ?>" data-title="<?php echo $location->name ?>"><span></span><?php //echo $location->name ?></label>
-                            <div class="tooltip"><?php echo $location->name; ?></div>
+                            <div class="tooltip"><span><?php echo $location->name; ?></span>
+                                <div class="tooltip_arrow"><img src="<?php echo get_template_directory_uri('/'); ?>/img/tooltip_arrow.png"></div>
+                            </div>
                             <!-- <span class="sr-only"><?php //echo $location->name; ?></span> -->
                           </div>
 

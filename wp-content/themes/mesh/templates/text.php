@@ -7,6 +7,8 @@ get_header(); ?>
 
 <main id="main" class="site-main" role="main">
 
+  <?php get_template_part( 'contact'); ?>
+
   <div class="container">
 
     <div class="row">

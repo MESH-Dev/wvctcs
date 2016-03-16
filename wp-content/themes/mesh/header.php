@@ -38,10 +38,17 @@
 
 	<!-- Favicons
 	================================================== -->
-	<link rel="shortcut icon" href="images/favicon.ico">
-	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+	<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+	<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+	<link rel="manifest" href="/manifest.json">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="theme-color" content="#ffffff">
 
 	<?php wp_head(); ?>
 
@@ -119,9 +126,30 @@
 
 		</header>
 
-		<div class="ctc_form lightbox">
-				<?php echo do_shortcode('[contact-form-7 id="79" title="Contact Advisor Form"]') ?>
-		</div>
+		<!-- <div class="ctc_form lightbox">
+				<?php //echo do_shortcode('[contact-form-7 id="79" title="Contact Advisor Form"]') ?>
+
+				<form id="contact" novalidate="novalidate">
+					<p>Name (required)<br />
+						<input type="text" name="fname" id="fname" value="" size="40">
+					</p>
+					<p>Email (required)<br />
+						<input type="email" name="email" id="email" size="40" >
+					</p>
+					<p>Phone (required)<br />
+						<input type="text" name="phone" id="phone" size="40" >
+					</p>
+					<p>Message<br />
+						<textarea name="message" cols="40" id="message" rows="10"></textarea>
+					</p>
+					<p>
+						<input style="float:left;" type="submit" value="Send"/>
+						<img id="contact_ajax" style="float:left; margin:10px; display:none;" src="<?php bloginfo('template_directory');?>/images/ajax-loader.gif"/>
+					</p>
+					<div id="contact_ajax_response"></div>
+				</form>
+				
+		</div> -->
 
 		<?php //$post_data = get_the_terms($post->ID, 'sector'); var_dump($post_data); ?>
 		<!-- Start Nav_Hovers -->
@@ -274,7 +302,7 @@
 					</div>
 				</div>
 				<!--See all buttons -->
-				<div class="row">
+				<div class="row nav_btn">
 					<div class="four columns">
 						<div class="button xl">
 							<a href="<?php echo esc_url( home_url( '/program/?sec=manufacturing' ) ); ?>">
@@ -450,7 +478,7 @@
 					</div>
 				</div>
 				<!--See all buttons -->
-				<div class="row">
+				<div class="row nav_btn">
 					<div class="four columns">
 						<div class="button xl">
 							<a href="<?php echo esc_url( home_url( '/jobs/?sec=manufacturing' ) ); ?>">

@@ -1,7 +1,7 @@
 <?php get_header(); ?>
 
 <main id="content">
-
+	<?php get_template_part( 'contact'); ?>
 	<div class="container">
 		<div class="row">
 			<div class="nine columns">

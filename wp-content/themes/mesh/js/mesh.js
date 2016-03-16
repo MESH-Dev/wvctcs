@@ -6,6 +6,14 @@ jQuery(document).ready(function($){
   //Are we loaded?
   console.log('New theme loaded!');
 
+  function full_height(){
+    var window_h = $(window).height();
+    $('.home.page .panel#home').css({'height':window_h});
+  }
+
+  $(window).load(full_height);
+$(window).resize(full_height);
+
   //Let's do something awesome!
 
   //Intended to unwrap h2's when they are used in a cutom WYSIWYG
@@ -33,6 +41,40 @@ jQuery(document).ready(function($){
     });   
 
   //-----------------------------------------------------
+
+  //Show/hide 
+  $('.ctc_form').hide().removeClass('hide');
+
+  $('.gateway #advisor, .ctc_advisor').click(function(e){
+    e.preventDefault();
+    $('.ctc_form').fadeIn(300);
+  });
+
+  $('.ctc_form .close').click(function(){
+    $('.ctc_form').fadeOut(300);
+    $('#contact')[0].reset();
+  });
+
+  //-----------------------------------------------------
+  
+  //Smooth page scroll
+  $(function() {
+  $('a[href*=#]:not([href=#])').click(function() {
+    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+      var target = $(this.hash);
+      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+      if (target.length) {
+        $('html,body').animate({
+          //'top-50' is custom.  limits the offset to top of window plus 50px
+          scrollTop: (target.offset().top-50)
+        }, 800);
+        return false;
+      }
+    }
+  });
+});
+
+ //-----------------------------------------------------
 
   //Equal height divs
 
@@ -114,6 +156,16 @@ jQuery(document).ready(function($){
 
   $(window).resize(function(){
     equalheight('.job_sum');
+  });
+
+  $(window).load(function() {
+    equalheight('.nav_btn .button.xl');
+    //console.log(equalheight);
+  });
+
+
+  $(window).resize(function(){
+    equalheight('.nav_btn .button.xl');
   });
 
   // $(window).load(function() {
@@ -244,10 +296,49 @@ $('ul.filters li#skill a').click(function(e){
 
 //-----------------------------------------------------
 
+//absolute center position for contact form
+
+$(window).load(function()
+{
+  centerContent();
+});
+
+$(window).resize(function()
+{
+  centerContent();
+});
+
+function centerContent()
+{
+  var container = $('#main');
+  var content = $('.ctc_form');
+  var _header = $('header');
+  var _window = $(window);
+  content.css("left", ((container.width()-content.width())/2) + _header.width());
+  content.css("top", (_window.height()-content.height())/2);
+
+  if(_window.width() <= 1024){
+    content.css("left", ((container.width()-content.width())/2));
+  }
+}
+//-----------------------------------------------------
 
 // MapTooltip
+
+
+// $('.map .pin').each(function(){
+//   var tt_width_b = $(this).find('.tooltip').width();
+//   console.log(tt_width_b);
+//   $(this).find('.tooltip').css({'width':tt_width_b+10});
+// });
+
 $('.map .pin').hover(function(){
   var tt_width = $(this).find('.tooltip').width();
+
+  $(this).find('.tooltip').css({'width':tt_width+20});
+  
+  var tt_val = $(this).find('.tooltip').text();
+  console.log(tt_val + ' is ' + tt_width +'px wide');
   $(this).find('.tooltip').css({'left':-((tt_width/2)+2)});
 },function(){
   $(this).find('.tooltip').css({'left':'-9999px'});
@@ -514,21 +605,89 @@ var checkboxFilter = {
 //Activates on "Find Results button"
 $(".search_bar .search").click(function(){
     // Retrieve the input field text and reset the count to zero
+
+    $('.results .mix').removeClass('single');
+
     var filter = $('input#location-search').val();
+    //filter = '.'+filter;
+
+    if(filter == ''){
+          $('.results .mix').removeClass('result');
+        }
+
+    console.log(filter);
+
+    //$('.results').mixItUp('filter', filter, GetActiveString);
 
     // Loop through grid items
     $(".results .mix").each(function(){
 
-        // If the list item does not contain the text phrase fade it out
-        if ($(this).text().search(new RegExp(filter, "i")) < 0) {
-            $(this).fadeOut();
+        if (filter != ''){
+          // If the list item does not contain the text phrase fade it out
+          if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+               $(this).fadeOut('slow').removeClass('result');
+              //$(this).css({"display":"none"});
 
-        // Show the list item if the phrase matches and increase the count by 1
-        } else {
-            $(this).fadeIn();
-
+          // Show the list item if the phrase matches and increase the count by 1
+          } else {
+              $(this).fadeIn('slow').addClass('result');
+              //$(this).css({"display":"inline-block"});
+              if($('.results .mix.result').size() == 1){
+                $('.results .mix.result').addClass('single');
+              }
+          }
+        }else{
+          $(this).fadeIn('slow');
         }
     });
+
+});
+
+$(".search_bar").keyup(function(event){
+    // Retrieve the input field text
+    var ret_filter = $('input#location-search').val();
+
+    //ret_filter = '.'+ret_filter;
+
+    var key = event.which;
+
+    if (key===13){
+
+      $('.results .mix').removeClass('single');
+      //$('.results .mix').css('')
+    // Loop through grid items
+      if(ret_filter == ''){
+          $('.results .mix').removeClass('result');
+          console.log('Search is blank');
+        }
+    console.log(ret_filter);
+
+    //$('.results').mixItUp('filter', ret_filter, GetActiveString);
+
+    $(".results .mix").each(function(){
+
+        // If the list item does not contain the text phrase fade it out
+        if (ret_filter != ''){
+
+            if ($(this).text().search(new RegExp(ret_filter, "i")) < 0) {
+                $(this).fadeOut('slow').removeClass('result');
+                //$(this).css({"display":"none"});
+
+            // Show the list item if the phrase matches and increase the count by 1
+            } else {
+               $(this).fadeIn('slow').addClass('result');
+              //$(this).css({"display":"inline-block"});
+                if($('.results .mix.result').size() == 1){
+                  $('.results .mix.result').addClass('single');
+                }
+                
+            } 
+        }else{
+          $(this).fadeIn('slow');
+        }
+    });
+
+  }
 
 });
 
@@ -561,13 +720,19 @@ $('.filter:checked')
 function GetActiveString(){
   var active = [];
   $('input:checked').each(function() {
-      active.push($(this).attr('data-name')); //data-filter
+      var dn = $(this).attr('data-name');
+      console.log(dn);
+      //var dn_wrap = $(this).attr('data-name').wrap('<span></span>');
+
+      active.push(dn); //data-filter
   });
 
 
-  var filtered = active.join(", ");
+  var filtered = active.join(', ');
+  console.log(filtered);
   if(filtered !== '')
     $('.results_pane span').html(filtered);
+      
   else{
     $('.results_pane span').html('All');
   }

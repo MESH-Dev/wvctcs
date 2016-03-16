@@ -8,8 +8,157 @@ function loadup_scripts() {
     wp_enqueue_script( 'parallax', get_template_directory_uri().'/js/jquery.parallax-1.1.3.js', array('jquery'), '1.0.0', true );
     wp_enqueue_script( 'theme-js', get_template_directory_uri().'/js/mesh.js', array('jquery'), '1.0.0', true );
     wp_enqueue_style( 'sidr-css-bare', get_template_directory_uri().'/css/jquery.sidr.light.css', '1.0.0', true );
+
+
 }
 add_action( 'wp_enqueue_scripts', 'loadup_scripts' );
+
+//Contact form
+function contact_scripts() {
+  wp_enqueue_script( 'contact-scripts', get_template_directory_uri() . '/js/contact.js', array('jquery'), '1.0.0', true);
+  wp_localize_script( 'contact-scripts', 'MyAjax', array(
+    // URL to wp-admin/admin-ajax.php to process data
+    'ajaxurl' => admin_url( 'admin-ajax.php' ),
+ 
+    // Creates a random string to test against for security purposes
+    'security' => wp_create_nonce( 'MESHiscool2009!' )
+  ));
+}
+add_action( 'wp_enqueue_scripts', 'contact_scripts' );
+
+function contact_ajax(){
+    wp_verify_nonce( 'my-special-string', 'security' );
+    if(isset($_POST['fname'])){
+    $fname = htmlspecialchars(stripslashes(trim($_POST['fname'])));
+      }else{
+        $fname = '';
+    }
+    if(isset($_POST['email'])){
+    $email = htmlspecialchars(stripslashes(trim($_POST['email'])));
+      }else{
+        $email = '';
+    }
+    if(isset($_POST['phone'])){
+    $phone = htmlspecialchars(stripslashes(trim($_POST['phone'])));
+    }else{
+        $phone = '';
+    }
+    if(isset($_POST['location'])){   
+    $location = htmlspecialchars(stripslashes(trim($_POST['location'])));
+    }else{
+        $location = '';
+    }
+    if(isset($_POST['howto'])){
+        $howto = htmlspecialchars(stripslashes(trim($_POST['howto'])));
+    }else{
+        $howto = '';
+    }
+    
+    $errors = array();
+    if(strlen($fname) < 4){
+        $errors[] = "Please Enter Your Full Name";
+    }
+    if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    
+    } else {
+        $errors[] = "Please Enter A Valid Email";
+    }
+    
+    if(strlen($phone) < 7){
+        $errors[] = "Please Enter a Valid Phone Number";
+    }
+
+    if(strlen($location == '')){
+        $errors[] = "Please choose a location nearest you";
+    }
+
+    if(strlen($howto == '')){
+        $errors[] = "Please choose a way to interact with us";
+    }
+
+    $advisor_email = '';
+
+    if ($location == 'Beckley/Lewisburg/Princeton'){
+
+        $advisor_email = '';
+
+    }elseif($location == 'Boone/Lincoln/Logan'){
+
+        $advisor_email = '';
+
+    }elseif($location == 'Fairmont/Morgantown'){
+
+        $advisor_email = '';
+
+    }elseif($location == 'Huntington'){
+
+        $advisor_email = '';
+
+    }elseif($location == 'Martinsburg'){
+
+        $advisor_email = '';
+
+    }elseif($location == 'Moorefield'){
+
+        $advisor_email = '';
+
+    }elseif($location == 'Parkersburg'){
+
+        $advisor_email = '';
+
+    }elseif($location == 'South Charleston/Montgomery'){
+
+        $advisor_email = '';
+
+    }elseif($location == 'Wheeling/Wierton'){
+
+        $advisor_email = '';
+
+    }else{
+
+        $advisor_email = 'shaun@meshfresh.com';
+    }
+    
+    if($errors){
+        $error_encode = "<div class='form_errors'><ul>";
+        foreach($errors as $error){
+            $error_encode .= "<li>$error</li>";
+        }
+        $error_encode .= "</div>";
+        echo json_encode("$error_encode");
+        die();
+    } else {
+ 
+        
+        $email_message  = "<strong>Name:</strong> $fname<br/>";
+        $email_message .= "<strong>Email:</strong> $email<br/>";
+        $email_message .= "<strong>Phone:</strong> $phone<br/>";
+        $email_message .= "<strong>My location:</strong> $location<br/>";
+        $email_message .= "<strong>I want to:</strong> $howto<br/>";
+ 
+ 
+        $mail_send = wp_mail( $advisor_email, 'Contact request from Train Now WV', $email_message, 'no-reply@meshfresh.com' );
+        
+ 
+        if($mail_send){
+            echo json_encode("<div class='form_success'>Success! You Will Hear From Us Shortly</div><script>$('#contact')[0].reset();</script>");
+            die();
+        }
+    }
+    
+    
+}
+ 
+add_action( 'wp_ajax_contact_ajax', 'contact_ajax' );
+add_action( 'wp_ajax_nopriv_contact_ajax', 'contact_ajax' );
+
+add_action( 'wp_enqueue_scripts', 'loadup_scripts' );
+function wpse27856_set_content_type(){
+    return "text/html";
+}
+add_filter( 'wp_mail_content_type','wpse27856_set_content_type' );
+
+//==============================================================
 
 // Add Thumbnail Theme Support
 add_theme_support('post-thumbnails');

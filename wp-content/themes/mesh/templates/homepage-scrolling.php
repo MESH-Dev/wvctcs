@@ -6,6 +6,8 @@ get_header(); ?>
 
 <main id="main" class="site-main" role="main">
 
+	<?php get_template_part( 'contact'); ?>
+
   <div class="container">
 
     <div class="row">
@@ -35,8 +37,15 @@ get_header(); ?>
 			      			</a>
 		      			</div>
 		      		<?php endwhile; endif; ?>
+
+		      		</div>
+		      		<div class="down_arrow">
+		      			<div class="da_container">
+		      				<a href="#pane-1"><img src="<?php echo get_template_directory_uri('/'); ?>/img/down_arrow_home.png ?>"></a>
+		      			</div>
 		      		</div>
 		      	</div>
+
       	</div>
 
       	<?php if (have_rows('hp_cp')) :

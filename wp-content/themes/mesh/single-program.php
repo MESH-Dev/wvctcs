@@ -5,6 +5,8 @@ get_header(); ?>
 <?php //single-program ?>
 <main id="main" class="site-main" role="main">
 
+  <?php get_template_part( 'contact'); ?>
+
   <div class="container">
 
     <div class="row">
@@ -53,6 +55,11 @@ get_header(); ?>
       <div class="desc">
         <h2><?php echo $program_name; ?></h2>
         <p><?php echo $program_desc; ?></p>
+       <!-- Go to www.addthis.com/dashboard to customize your tools -->
+      <div class="addthis_sharing_toolbox"></div>
+        
+
+
       </div>
 
       <?php 
@@ -75,7 +82,7 @@ get_header(); ?>
         ?>
         <?php //if ($button_lt_ovp != '') { ?>
         <div class="button xl">
-            <a href="#">
+            <a class="ctc_advisor" href>
               <div>
                 Contact an advisor now
                 <?php //echo $button_lt_ovp; ?>
@@ -346,7 +353,7 @@ get_header(); ?>
                 ?>
 
                 <div class="job_sum six columns">
-                  <a href="<?php echo $link; ?>">
+                  <a href="<?php echo get_permalink($jobID); ?>">
                     <h4><?php echo $jobName; ?></h4>
                     
                       
